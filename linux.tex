@@ -1,0 +1,154 @@
+\documentclass[12pt]{article}
+
+\usepackage[ansinew]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{graphicx,textcomp,booktabs,amsmath,amsfonts}
+\usepackage[scaled]{helvet}
+\usepackage[ngerman]{babel}
+\usepackage[a4paper, top=3.0cm, left=2.5cm, right=2.5cm, bottom=3.0cm]{geometry}
+\usepackage[bf]{caption}
+\usepackage{listings}
+\usepackage[pdfborder={0 0 0}, colorlinks=false]{hyperref}
+
+\renewcommand{\captionfont}{\footnotesize}
+\renewcommand\floatpagefraction{0.9}
+\renewcommand\topfraction{0.9}
+\renewcommand\bottomfraction{0.9}
+\renewcommand\textfraction{0.1}
+
+\newenvironment{code}{\begin{tabbing}Links \= Mittl \= Mitte \= Mittr \= Rechts \kill}{\end{tabbing}}
+
+
+\begin{document}
+\pagestyle{empty}
+
+\label{cover_page}
+\pdfbookmark[0]{Cover}{cover_page}
+
+\begin{center}
+	\huge{Linux Commands\\}
+\end{center}
+
+\begin{center}
+	\today
+\end{center}
+
+\begin{abstract}
+	\label{the_abstract}
+	\pdfbookmark[0]{Abstract}{the_abstract}
+	Dieses Dokument ist "uber einige Unix Befehle.
+\end{abstract}
+\newpage
+
+\pdfbookmark[0]{Contents}{Contents}
+\tableofcontents
+
+\newpage
+\section{Grundlegendes}
+Hier gibts die typischen Unix Befehle.
+\subsection{Eine leere Datei fixer Gr"o"se erstellen}
+Das erstellt eine 10 KB gro"se Datei.
+\begin{code}
+	\> \verb#/dev/zero | dd bs=1024 count=10 > [datei]#
+\end{code}
+\subsection{Standard Ausgang in Datei(en) kopieren}
+\begin{code}
+	\> \verb#tee [file1] [file2] ...#
+\end{code}
+
+\section{Mounten}
+Hier die wichtigsten Befehle um Datein und Partitionen ins System einzuh"angen.
+\subsection{Ein Iso-Image einh"angen}
+Um iso-images zu mounten muss man folgenden Befehl ausf"uhren.
+\begin{code}
+	\> \verb#mount -o loop,ro [image.iso] [mountpoint]#
+\end{code}
+\subsection{Einen Ssh-Account einh"angen}
+Ben"otigt wird:
+\begin{itemize}
+	\item[-] fuse
+	\item[-] fuse-sshfs
+\end{itemize}
+Damit man als User fusermounts machen kann, muss man in der Gruppe \textit{fuse} 
+sein (Benutzerverwaltung).\\
+Um nun einen ssh-Account zu laden, muss man folgende Befehle ausf"uhren:
+\begin{code}
+	\> \verb#sshfs [user]@[host]:[path] [mountpoint]#
+\end{code}
+Um den ssh Account wieder freizugeben muss man folgendes ausf"uhren:
+\begin{code}
+	\> \verb#fusermount -u [mountpoint]#
+\end{code}
+\subsection{Ein Swapfile einh"angen}
+Zuerst braucht man eine Datei mit der ben"otigten Gr"o"se (Dies kann z.B. mit dd erreicht werden).
+Der folgende Befehl erstellt eine Swap-Partition in der Datei \textit{swapfile}:
+\begin{code}
+	\> \verb#mkswap [swapfile]#
+\end{code}
+Nun wird dem System gesagt, dass es die Datei verwenden soll:
+\begin{code}
+	\> \verb#sudo swapon [swapfile]#
+\end{code}
+Mit \textit{swapoff} kann man die datei danach wieder aush"angen.
+
+\section{Die Packeteverwaltung}
+\textit{Apt} ist eine Packeteverwaltung f"ur Ubuntu und sollte zum installieren benutzt werden.
+Weiters kann man auch mit \textit{gdebi} Packete installieren und mit \textit{dpkg}.
+\subsection{Programme installieren}
+Dieser Code installiert das Programm mit Namen \textit{name}
+\begin{code}
+	\> \verb#sudo apt-get install [name]#
+\end{code}
+Ein lokales Packet\footnote{eine *.deb Datei} installieren:
+\begin{code}
+	\> \verb#sudo gdebi [packet]#
+\end{code}
+\subsection{Nur die Source-Codes herunterladen}
+Dieser Code l"ad alle Datein f"ur das Packet \textit{name} herunter. Das Archive ist dann unter 
+\verb#/var/cache/apt/archives# zu finden.
+
+\section{Netzwerk}
+Netzwerkbefehle.
+\subsection{Lokale Rechner}
+Lokale Rechner werden unter \verb#[rechnername].local# angesprochen.
+\subsection{X-Server tunneln}
+Das \textit{C} bei den Flags steht f"ur Kompression und sollte auch verwendet werden.
+\begin{code}
+	\> \verb#ssh -['X' oder 'Y'](C) [user]@[rechnerdomain]#
+\end{code}
+\subsection{Netzwerk neustarten}
+\begin{code}
+	\> \verb#sudo /etc/init.d/networking restart#
+\end{code}
+
+\section{Programmieren}
+Hier gehts um Programmiertools und alles was dazugeh"ort.
+\subsection{Dfu-Programmer}
+Brenner f"ur z.B. den \textit{at90usb162}. Man muss das Programm als root aufrufen (mit sudo) oder
+chmod u+s setzten.
+Um ein neues Programm in den At90 zu laden muss man ihn zuerst l"oschen und danach das Programm brennen:
+\begin{code}
+	\> \verb#(sudo) dfu-programmer at90usb162 erase# \\
+	\> \verb#(sudo) dfu-programmer at90usb162 flash [hexfile].hex#	
+\end{code}
+\subsection{Avrdude}
+Tool um diverse ISP Brenner zu benutzen. Verwendet wird hier ein STK500v2 kompatibles Ger"at.
+\begin{itemize}
+	\item Avrdude Terminal Mode: Hier kann man diverse Befehle eingeben und interaktiv den avr auslesen:
+	\begin{code}
+		\> \verb#avrdude -p [device] -c [protocol] -P [port] -t# \\
+		\> \verb#avrdude -p m8 -c stk500v2 -P /dev/ttyACM0 -t#
+	\end{code}
+\end{itemize}
+
+\section{Andere}
+Nicht einordenbare Befehle...
+\subsection{Virtualbox}
+Man muss vor der Installation das Packet \verb#virtualbox-ose-modules-2.6.24-19-generic# (nat"urlich 
+f"ur die richtige Kernel Version) installieren.
+\subsection{Andere Version von Java benutzen}
+Um die zu verwendente Version\footnote{wurde bereits installiert} auszuw"ahlen:
+\begin{code}
+	\> \verb#sudo update-alternatives --config java#
+\end{code}
+\end{document}
