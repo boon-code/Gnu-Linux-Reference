@@ -49,7 +49,7 @@ Hier gibts die typischen Unix Befehle.
 \subsection{Eine leere Datei fixer Gr"o"se erstellen}
 Das erstellt eine 10 KB gro"se Datei.
 \begin{code}
-	\> \verb#/dev/zero | dd bs=1024 count=10 > [datei]#
+	\> \verb#cat /dev/zero | dd bs=1024 count=10 > [datei]#
 \end{code}
 \subsection{Standard Ausgang in Datei(en) kopieren}
 \begin{code}
