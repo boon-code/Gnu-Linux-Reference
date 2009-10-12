@@ -103,7 +103,15 @@ Ein lokales Packet\footnote{eine *.deb Datei} installieren:
 \begin{code}
 	\> \verb#sudo gdebi [packet]#
 \end{code}
+
 \subsection{Nur die Source-Codes herunterladen}
+Dieser Code l"ad alle Datein f"ur das Packet \textit{name} herunter. Das Archive ist dann unter 
+im gerade aktiven Verzeichnis zu finden.
+\begin{code}
+	\> \verb#sudo apt-get -d source [name]#
+\end{code}
+
+\subsection{Nur das *.deb Packet herunterladen}
 Dieser Code l"ad alle Datein f"ur das Packet \textit{name} herunter. Das Archive ist dann unter 
 \verb#/var/cache/apt/archives# zu finden.
 \begin{code}
