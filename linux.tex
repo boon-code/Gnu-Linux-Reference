@@ -26,7 +26,7 @@
 \pdfbookmark[0]{Cover}{cover_page}
 
 \begin{center}
-	\huge{Linux Commands\\}
+	\huge{Linux Befehle\\}
 \end{center}
 
 \begin{center}
@@ -36,7 +36,12 @@
 \begin{abstract}
 	\label{the_abstract}
 	\pdfbookmark[0]{Abstract}{the_abstract}
-	Dieses Dokument ist "uber einige Unix Befehle.
+	Dieses Dokument beschäftigt sich mit einigen GNU/Linux Befehlen die
+	mir über den Weg gelaufen sind ;). Hoffentlich ist diese bei weitem nicht 
+	komplette Liste von Befehlen auch noch für jemanden anderen nützlich.
+	Bitte nicht wundern, es gibt Befehle zu den verschiedensten Themenbereichen. Wann immer
+	ich lange mit einem Befehl gearbeitet habe, oder ein besonders tolles unix werkzeug mir
+	die arbeit erleichter hat, wird es kurzerhand einfach hier niedergeschrieben...
 \end{abstract}
 \newpage
 
@@ -123,7 +128,7 @@ z.b. f"ur Java:
 \begin{code}
 	\> \verb#sudo update-alternatives --config java#
 \end{code}
-\subsection{Liste aller installierten version}
+\subsection{Liste aller installierten Version}
 Um eine Liste aller installierter Versionen zu bekommen kann folgender Befehl\footnote{Am Beispiel java}
  verwendet werden:
 \begin{code}
@@ -163,6 +168,21 @@ Tool um diverse ISP Brenner zu benutzen. Verwendet wird hier ein STK500v2 kompat
 		\> \verb#avrdude -p m8 -c stk500v2 -P /dev/ttyACM0 -t#
 	\end{code}
 \end{itemize}
+
+\section{Git Versionsverwaltungssystem}
+Schon seit längerem benutze ich regelmäßig dieses äußerst Praktische Werkzeug.
+Es gibt sehr gute Einführungen in dieses Thema, hier werde ich nur Befehle abdecken, die 
+mir irgendwann nützlich waren und wo ich vielleicht schon x-mal nachschlagen musste...
+
+\subsection{'diff' nachdem man 'add' aufgerufen hat}
+Das kennen vielleicht viele: Grad hat man alle Dateien geadded die sich verändert habe und man
+ist kurz davor die commit-message zu schreiben, da fällt einem nichtmehr ein was man eigentlich alles
+geändert hat. Hier hilft:
+\begin{code}
+	\> \verb#git diff --cached#
+\end{code}
+am besten in einem neuen Terminal damit man das ganze ein wenig durchgehen kann und während man so
+die groben Änderungen beschreibt...
 
 \section{Andere}
 Nicht einordenbare Befehle...
