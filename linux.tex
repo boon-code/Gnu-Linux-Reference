@@ -105,10 +105,10 @@ Ein lokales Packet\footnote{eine *.deb Datei} installieren:
 \end{code}
 
 \subsection{Nur die Source-Codes herunterladen}
-Dieser Code l"ad alle Datein f"ur das Packet \textit{name} herunter. Das Archive ist dann unter 
+Dieser Code l"ad alle Datein f"ur das Packet \textit{name} herunter. Das Archive ist dann 
 im gerade aktiven Verzeichnis zu finden.
 \begin{code}
-	\> \verb#sudo apt-get -d source [name]#
+	\> \verb#apt-get source [name]#
 \end{code}
 
 \subsection{Nur das *.deb Packet herunterladen}
@@ -116,6 +116,18 @@ Dieser Code l"ad alle Datein f"ur das Packet \textit{name} herunter. Das Archive
 \verb#/var/cache/apt/archives# zu finden.
 \begin{code}
 	\> \verb#sudo apt-get -d install [name]#
+\end{code}
+\subsection{Andere Version von einem Program verwenden}
+Um die zu verwendente Version\footnote{wurde bereits installiert} auszuw"ahlen
+z.b. f"ur Java:
+\begin{code}
+	\> \verb#sudo update-alternatives --config java#
+\end{code}
+\subsection{Liste aller installierten version}
+Um eine Liste aller installierter Versionen zu bekommen kann folgender Befehl\footnote{Am Beispiel java}
+ verwendet werden:
+\begin{code}
+	\> \verb#update-alternatives --list java#
 \end{code}
 
 \section{Netzwerk}
@@ -157,9 +169,4 @@ Nicht einordenbare Befehle...
 \subsection{Virtualbox}
 Man muss vor der Installation das Packet \verb#virtualbox-ose-modules-2.6.24-19-generic# (nat"urlich 
 f"ur die richtige Kernel Version) installieren.
-\subsection{Andere Version von Java benutzen}
-Um die zu verwendente Version\footnote{wurde bereits installiert} auszuw"ahlen:
-\begin{code}
-	\> \verb#sudo update-alternatives --config java#
-\end{code}
 \end{document}
