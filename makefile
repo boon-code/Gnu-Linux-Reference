@@ -1,5 +1,12 @@
 
-include userconfig.mk
+# default values
+NAME=main
+PDF_BUILDER=pdflatex
+PDF_VIEWER=evince
+WARNING_TEXT="Warning"
+
+# use such a file to override these values for your platform/project...
+-include userconfig.mk
 
 TARGET=$(NAME).pdf
 TEXFILE=$(NAME).tex
@@ -16,22 +23,33 @@ $(TEXPORT): $(TEXFILE)
 
 all: $(TARGET)
 
-.PHONY: clean more quick clean-lite port git-clean
+.PHONY: clean more quick clean-lite port git-clean tidy warning once
 
 git-clean:
-	rm -f $(NAME).aux $(NAME).log $(NAME).toc $(NAME).out $(TARGET) $(TEXPORT)
+	make clean
 	rm -f *~
 
 clean-lite:
-	rm -f $(NAME).aux $(NAME).log $(NAME).toc $(NAME).out $(TEXPORT)
+	rm -f $(NAME).aux $(NAME).log $(NAME).toc $(NAME).out $(TEXPORT) $(NAME).lof
 
 more: $(TEXPORT)
 	$(PDF_BUILDER) $(TEXPORT)
 	
 clean:
-	rm -f $(NAME).aux $(NAME).log $(NAME).toc $(NAME).out $(TARGET) $(TEXPORT)
+	rm -f $(NAME).aux $(NAME).log $(NAME).toc $(NAME).out $(TARGET) $(TEXPORT) $(NAME).lof
+
+tidy:
+	make
+	make clean-lite	
 
 quick: $(TEXPORT)
 	$(PDF_BUILDER) $(TEXPORT)
 	$(PDF_VIEWER) $(TARGET) &
+
+warning: $(TEXPORT)
+	$(PDF_BUILDER) $(TEXPORT)|grep -i -E $(WARNING_TEXT)|cat
+	@echo "checked"
+
+once: $(TEXPORT)
+	$(PDF_BUILDER) $(TEXPORT)
 
