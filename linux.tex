@@ -184,12 +184,28 @@ geändert hat. Hier hilft:
 am besten in einem neuen Terminal damit man das ganze ein wenig durchgehen kann und während man so
 die groben Änderungen beschreibt...
 
-\section{Andere}
-Nicht einordenbare Befehle...
-\subsection{Virtualbox}
+\section{VirtualBox}
+Nützliche Dinge über oder für VirtualBox.
+\subsection{Virtualbox Kernelmodul installieren}
 Man muss vor der Installation das Packet:
 \begin{code}
   \verb#virtualbox-ose-modules-2.6.24-19-generic# 
 \end{code}
 ... natürlich für die richtige Kernel Version installiert haben.
+
+\subsection{COM Ports emulieren}
+Um COM Ports zu emulieren kann die Einstellung 'Host-Pipe' (erzeuge Host Pipe angehackt)
+gewählt werden. Als Dateiname kann einfach irgendein pfad zu einer Datei die möglichst nicht
+existiert (da sie sonst wohl überschrieben wird) eingegeben werden.
+Z.B.: nur com1 erzeugt bei mir eine Datei com1 im Home-Verzeichnis des gerade aktiven Benutzers.
+Soweit ich das verstanden habe erzeugt das wohl einen unix socket. Sehr nützlich ist hier das Tool
+\textit{socat} da es sehr viele Protokolle auf andere umsetzten kann. Mit folgendem Befehl
+\begin{code}
+	\> \verb#socat UNIX-CONNECT:path_to_com_pipe TCP-LISTEN:8040#
+\end{code}
+kann der unix-socket umgesetzt werden auf tcp. Danach kann man bequem mit
+\begin{code}
+	\> \verb#telnet localhost 8040 -e ^X#
+\end{code}
+darauf zugeriffen werden.
 \end{document}
