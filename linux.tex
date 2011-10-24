@@ -184,12 +184,21 @@ geändert hat. Hier hilft:
 am besten in einem neuen Terminal damit man das ganze ein wenig durchgehen kann und während man so
 die groben Änderungen beschreibt...
 
+\subsection{'merge' ohne die gesamte history}
+Wenn man z.b. einen Test-Zweig hat und dort mehrere Commits macht, im Endeffekt aber 
+dann nur einen endgültigen sinnvollen Stand hat möchte man vielleicht die Zwischenstände
+nicht in den Hauptzweig übernehmen. Das kann man mit der \verb#--squash#
+Option erreichen:
+\begin{code}
+	\> \verb#git merge --squash some-branch#
+\end{code}
+
 \section{VirtualBox}
 Nützliche Dinge über oder für VirtualBox.
 \subsection{Virtualbox Kernelmodul installieren}
 Man muss vor der Installation das Packet:
 \begin{code}
-  \verb#virtualbox-ose-modules-2.6.24-19-generic# 
+  \> \verb#virtualbox-ose-modules-2.6.24-19-generic# 
 \end{code}
 ... natürlich für die richtige Kernel Version installiert haben.
 
