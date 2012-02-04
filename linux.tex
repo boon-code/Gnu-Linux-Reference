@@ -54,11 +54,15 @@ Hier gibts die typischen Unix Befehle.
 \subsection{Eine leere Datei fixer Gr"o"se erstellen}
 Das erstellt eine 10 KB gro"se Datei.
 \begin{code}
-	\> \verb#cat /dev/zero | dd bs=1024 count=10 > [datei]#
+	\> \verb#cat /dev/zero | dd bs=1024 count=10 > ${datei}#
 \end{code}
 \subsection{Standard Ausgang in Datei(en) kopieren}
 \begin{code}
-	\> \verb#tee [file1] [file2] ...#
+	\> \verb#tee ${file1} ${file2} ...#
+\end{code}
+\subsection{Dateien auflisten die regulären Ausdruck beinhalten}
+\begin{code}
+	\> \verb#find ${directory} -exec grep -l -E "${regex}" {} \;#
 \end{code}
 
 \section{Mounten}
@@ -66,7 +70,7 @@ Hier die wichtigsten Befehle um Datein und Partitionen ins System einzuh"angen.
 \subsection{Ein Iso-Image einh"angen}
 Um iso-images zu mounten muss man folgenden Befehl ausf"uhren.
 \begin{code}
-	\> \verb#mount -o loop,ro [image.iso] [mountpoint]#
+	\> \verb#mount -o loop,ro ${iso_path} ${mountpoint}#
 \end{code}
 \subsection{Einen Ssh-Account einh"angen}
 Ben"otigt wird:
@@ -78,21 +82,21 @@ Damit man als User fusermounts machen kann, muss man in der Gruppe \textit{fuse}
 sein (Benutzerverwaltung).\\
 Um nun einen ssh-Account zu laden, muss man folgende Befehle ausf"uhren:
 \begin{code}
-	\> \verb#sshfs [user]@[host]:[path] [mountpoint]#
+	\> \verb#sshfs "${user}@${host}:${path}" ${mountpoint}#
 \end{code}
 Um den ssh Account wieder freizugeben muss man folgendes ausf"uhren:
 \begin{code}
-	\> \verb#fusermount -u [mountpoint]#
+	\> \verb#fusermount -u ${mountpoint}#
 \end{code}
 \subsection{Ein Swapfile einh"angen}
 Zuerst braucht man eine Datei mit der ben"otigten Gr"o"se (Dies kann z.B. mit dd erreicht werden).
 Der folgende Befehl erstellt eine Swap-Partition in der Datei \textit{swapfile}:
 \begin{code}
-	\> \verb#mkswap [swapfile]#
+	\> \verb#mkswap ${swapfile}#
 \end{code}
 Nun wird dem System gesagt, dass es die Datei verwenden soll:
 \begin{code}
-	\> \verb#sudo swapon [swapfile]#
+	\> \verb#sudo swapon ${swapfile}#
 \end{code}
 Mit \textit{swapoff} kann man die datei danach wieder aush"angen.
 
@@ -102,25 +106,25 @@ Weiters kann man auch mit \textit{gdebi} Packete installieren und mit \textit{dp
 \subsection{Programme installieren}
 Dieser Code installiert das Programm mit Namen \textit{name}
 \begin{code}
-	\> \verb#sudo apt-get install [name]#
+	\> \verb#sudo apt-get install ${name}#
 \end{code}
 Ein lokales Packet\footnote{eine *.deb Datei} installieren:
 \begin{code}
-	\> \verb#sudo gdebi [packet]#
+	\> \verb#sudo gdebi ${packet}#
 \end{code}
 
 \subsection{Nur die Source-Codes herunterladen}
 Dieser Code l"ad alle Datein f"ur das Packet \textit{name} herunter. Das Archive ist dann 
 im gerade aktiven Verzeichnis zu finden.
 \begin{code}
-	\> \verb#apt-get source [name]#
+	\> \verb#apt-get source ${name}#
 \end{code}
 
 \subsection{Nur das *.deb Packet herunterladen}
 Dieser Code l"ad alle Datein f"ur das Packet \textit{name} herunter. Das Archive ist dann unter 
 \verb#/var/cache/apt/archives# zu finden.
 \begin{code}
-	\> \verb#sudo apt-get -d install [name]#
+	\> \verb#sudo apt-get -d install ${name}#
 \end{code}
 \subsection{Andere Version von einem Program verwenden}
 Um die zu verwendente Version\footnote{wurde bereits installiert} auszuw"ahlen
@@ -138,11 +142,12 @@ Um eine Liste aller installierter Versionen zu bekommen kann folgender Befehl\fo
 \section{Netzwerk}
 Netzwerkbefehle.
 \subsection{Lokale Rechner}
-Lokale Rechner werden unter \verb#[rechnername].local# angesprochen.
+Lokale Rechner werden unter \verb#${rechnername}.local# angesprochen.
 \subsection{X-Server tunneln}
-Das \textit{C} bei den Flags steht f"ur Kompression und sollte auch verwendet werden.
+Das \textit{C} bei den Flags steht f"ur Kompression und sollte auch verwendet werden. Um das X11 Protokoll zu tunneln muss man das \verb#X# oder \verb#Y# Flag setzten
 \begin{code}
-	\> \verb#ssh -['X' oder 'Y'](C) [user]@[rechnerdomain]#
+	\> \verb#ssh -XC "${user}@${rechnerdomain}"# \\
+	\> \verb#ssh -YC "${user}@${rechnerdomain}"#
 \end{code}
 \subsection{Netzwerk neustarten}
 \begin{code}
@@ -157,14 +162,14 @@ chmod u+s setzten.
 Um ein neues Programm in den At90 zu laden muss man ihn zuerst l"oschen und danach das Programm brennen:
 \begin{code}
 	\> \verb#(sudo) dfu-programmer at90usb162 erase# \\
-	\> \verb#(sudo) dfu-programmer at90usb162 flash [hexfile].hex#	
+	\> \verb#(sudo) dfu-programmer at90usb162 flash ${hexfile}#	
 \end{code}
 \subsection{Avrdude}
 Tool um diverse ISP Brenner zu benutzen. Verwendet wird hier ein STK500v2 kompatibles Ger"at.
 \begin{itemize}
 	\item Avrdude Terminal Mode: Hier kann man diverse Befehle eingeben und interaktiv den avr auslesen:
 	\begin{code}
-		\> \verb#avrdude -p [device] -c [protocol] -P [port] -t# \\
+		\> \verb#avrdude -p ${device} -c ${protocol} -P ${port} -t# \\
 		\> \verb#avrdude -p m8 -c stk500v2 -P /dev/ttyACM0 -t#
 	\end{code}
 \end{itemize}
@@ -190,7 +195,7 @@ dann nur einen endgültigen sinnvollen Stand hat möchte man vielleicht die Zwis
 nicht in den Hauptzweig übernehmen. Das kann man mit der \verb#--squash#
 Option erreichen:
 \begin{code}
-	\> \verb#git merge --squash some-branch#
+	\> \verb#git merge --squash ${some_branch}#
 \end{code}
 
 \section{VirtualBox}
@@ -210,7 +215,8 @@ Z.B.: nur com1 erzeugt bei mir eine Datei com1 im Home-Verzeichnis des gerade ak
 Soweit ich das verstanden habe erzeugt das wohl einen unix socket. Sehr nützlich ist hier das Tool
 \textit{socat} da es sehr viele Protokolle auf andere umsetzten kann. Mit folgendem Befehl
 \begin{code}
-	\> \verb#socat UNIX-CONNECT:path_to_com_pipe TCP-LISTEN:8040#
+	\> \verb#socat UNIX-CONNECT:${path_to_com_pipe} TCP-LISTEN:${port}# \\
+	\> \verb#socat UNIX-CONNECT:${path_to_com_pipe} TCP-LISTEN:8040#
 \end{code}
 kann der unix-socket umgesetzt werden auf tcp. Danach kann man bequem mit
 \begin{code}
