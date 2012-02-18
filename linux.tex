@@ -223,4 +223,15 @@ kann der unix-socket umgesetzt werden auf tcp. Danach kann man bequem mit
 	\> \verb#telnet localhost 8040 -e ^X#
 \end{code}
 darauf zugeriffen werden.
+
+\section{Linux Specifisches}
+Hier kommt Linux Specifisches herein (also alles, das wirklich den Kernel betrifft).
+
+\subsection{Kernel Modul kompilieren}
+Um kernel Module zu installieren, sollten die beiden Packete \textit{linux-headers} und \textit{build-essential} (auf Ubuntu basierenden Systemen) mittels folgender Zeile installieret werden:
+\begin{code}
+	\> \verb#sudo apt-get install linux-headers-`uname -r` build-essential#
+\end{code}
+Dies kann oft nötig sein, wenn zusätzliche Kernel Module wie zum Beispiel die Virtual Box Guest Additions installiert werden sollen.
+
 \end{document}
