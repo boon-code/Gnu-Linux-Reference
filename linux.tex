@@ -198,6 +198,13 @@ Option erreichen:
 	\> \verb#git merge --squash ${some_branch}#
 \end{code}
 
+\subsection{Einen neuen Zweig (branch) anfangen}
+Manchmal ist es sinnvoll, einen neuen Zweig zu erstellen der nicht an den gerade aktiven Zweig anknüpft sondern keine Geschichte besitzt. Wenn man z.B. einen neuen Zweig mit Namen \verb#doc-page# machen möchte:
+\begin{code}
+	\> \verb#git symbolic-ref HEAD refs/heads/doc-page#
+\end{code}
+Anschließend alte Dateien vom index löschen und neue hinzufügen und schon ist der neue Zweig eingerichtet...
+
 \section{VirtualBox}
 Nützliche Dinge über oder für VirtualBox.
 \subsection{Virtualbox Kernelmodul installieren}
