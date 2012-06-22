@@ -207,6 +207,15 @@ Anschließend alte Dateien vom index löschen und neue hinzufügen und schon ist
 
 \section{VirtualBox}
 Nützliche Dinge über oder für VirtualBox.
+\subsection{Virtualbox-ose auf usb stick starten}
+Über die Environment Variable \verb#VBOX_USER_HOME# kann man Virtualbox das neue Virtualbox Hauptverzeichnis mitteilen. Zusätzlich muss man aber mit VBoxManage das Verzeichnis wo die virtuelle Maschine liegen soll, festsetzten:
+\begin{code}
+	\> \verb#my_env=VBOX_USER_HOME=${vbox_dir}# \\
+	\> \verb#env ${my_env} VBoxManage setproperty machinefolder ${machine_dir}# \\
+	\> \verb#env ${my_env} VirtualBox#
+\end{code}
+Wobei \verb#vbox_dir# das Hauptverzeichnis darstellt, wo VirtualBox seine Einstellungen ablegen soll. Das Abbild der Festplatten liegt dann im Ordner \verb#machine_dir#.
+
 \subsection{Virtualbox Kernelmodul installieren}
 Man muss vor der Installation das Packet:
 \begin{code}
